@@ -159,4 +159,4 @@ attendance view, the correction log, or admin-only policy documents).
   the pages surface that affordance as a disabled, labelled control for Admin only, since no
   management endpoints exist in the contract yet.
 
-Commit: _(recorded below after commit)_
+Commit: `2eae14a`
