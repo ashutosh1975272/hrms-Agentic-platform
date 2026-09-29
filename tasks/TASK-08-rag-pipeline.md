@@ -98,5 +98,5 @@ service exposes plain functions and a class for later wiring.
 ### Commit
 
 `TASK-08: add standalone RAG service (chunker, TF-IDF store, pipeline) + tests`
-(see STATUS.md for hash after commit).
+— commit `1db95b2` on `feature/TASK-08-rag`.
 
