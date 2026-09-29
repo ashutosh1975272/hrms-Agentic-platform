@@ -1,0 +1,13 @@
+extends: default
+
+rules:
+  # GitHub Actions expresses booleans as `on:` and `true`; yamllint's truthy
+  # rule flags the workflow key itself.
+  truthy:
+    allowed-values: ["true", "false", "on"]
+  line-length:
+    max: 100
+  document-start:
+    present: true
+  comments:
+    min-spaces-from-content: 1
