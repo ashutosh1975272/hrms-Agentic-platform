@@ -77,3 +77,41 @@ agentic-hrms/
 - **Lead (me, outside the IDE)**: breaks down work, assigns tasks one-by-one, runs gates,
   reviews every diff, merges. I do not write feature code.
 - **Kilo modes (inside the IDE)**: implement exactly one assigned task each, then stop and report.
+
+## 7. UI/UX quality bar (lead-mandated)
+
+- Single design system: `design-system/agentic-hrms/MASTER.md` (glassmorphism SaaS,
+  trust-blue palette, Poppins/Open Sans, dashboard density). Generated from the
+  UI/UX Pro Max catalog; all frontend agents must follow it.
+- Enforceable rules: `.kilocode/rules/ui-ux.md` — shared component library, SVG icons,
+  responsive at 4 breakpoints, 4.5:1 contrast, keyboard nav, reduced-motion,
+  loading/empty/error states everywhere, pre-delivery checklist per task.
+- Reference stack: TailwindCSS + Lucide icons + Front-End Checklist skills (global +
+  per-category). No emoji icons, no raw hex, no one-off page styles.
+- Lead UI review: every frontend task is visually verified (rendered-page check)
+  before merge, not just build+lint.
+
+## 8. Requirement coverage map (PROJECT.md -> tasks)
+
+- §1-3 overview/objectives -> PLAN + all tasks
+- §4 roles/Admin/HR/Employee -> TASK-02 (backend matrix) + TASK-09/10 (UI guards)
+- §5.1 employees -> TASK-03 + TASK-10
+- §5.2 departments/designations -> TASK-03 + TASK-10
+- §5.3 attendance -> TASK-04 + TASK-10
+- §5.4 leaves -> TASK-05 + TASK-10
+- §5.5 policies/knowledge -> TASK-00 (docs) + TASK-06 (CRUD) + TASK-08 (RAG) + TASK-10
+- §5.6 dashboards -> TASK-09
+- §6-8 agent/intents/CRUD -> TASK-07 + TASK-11
+- §9 RAG -> TASK-08
+- §10 structured querying -> TASK-07 (DB tools)
+- §11 AI tools -> TASK-07
+- §12 workflow -> TASK-07
+- §13 permission matrix -> TASK-02 + TASK-07 (tool checks) + TASK-09/10 (UI guards)
+- §14 confirmations -> TASK-07 + TASK-11
+- §15 context/memory -> TASK-07
+- §16 audit -> TASK-06 + TASK-07 (hooks)
+- §17 scenarios -> TASK-07 tests + TASK-11 UI + TASK-12 E2E
+- §18 dashboard+AI -> TASK-09/10/11
+- §19 architecture -> TASK-01 + PLAN §1
+- §20 security -> TASK-12 (+ per-task rules)
+- §21-23 value/summary -> docs (TASK-12)
