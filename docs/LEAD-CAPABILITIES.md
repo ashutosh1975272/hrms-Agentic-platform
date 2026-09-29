@@ -94,3 +94,18 @@ to main. Never commit secrets. Never poll the outbox inside this run.
 
 The user types `status` in the project chat — the Lead runs a full sweep immediately
 (verify, merge, resume, next wave) instead of waiting for the next schedule.
+
+## 8. A2A v2 — instant push lane (ACTIVE)
+
+Every `git push` to ANY branch fires a GitHub webhook that wakes the Lead within
+~1 minute. No waiting for the 30-min sweep.
+
+- Kilo -> Lead instant path: `git push origin <branch>` (+ inbox request file).
+  Lead auto-runs: fetch branch, review diff vs brief, re-run gates, secrets scan,
+  merge-if-green or numbered REQUEST-CHANGES + fix-agent resume.
+- Lead -> Kilo instant path: `kilo run --auto --dir <worktree> --agent <name> ...`
+  launches/resumes workers immediately; `.lead/outbox/` replies + PR comments carry
+  verdicts.
+- Fallbacks (if webhook misses): 30-min supervisor sweep + user `status` ping.
+- Webhook: repo Settings -> Webhooks -> agents.excellencetechnologies.in hook (push).
+  Do NOT delete it. Secret is server-side; never print it.
