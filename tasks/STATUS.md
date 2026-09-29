@@ -2,7 +2,7 @@
 
 | Task | Feature | Mode | Branch | Status | Commit |
 |---|---|---|---|---|---|
-| TASK-01 | Backend scaffold + skeleton | backend-dev | feature/TASK-01-scaffold | review | 3e1b0e5 |
+| TASK-01 | Backend scaffold + skeleton | backend-dev | feature/TASK-01-scaffold | review | 5f0ff44 |
 | TASK-02 | Auth + RBAC | backend-dev | feature/TASK-02-auth | queued | - |
 | TASK-03 | Employee + Dept + Designation APIs | backend-dev | feature/TASK-03-employees | queued | - |
 | TASK-04 | Attendance APIs | backend-dev | feature/TASK-04-attendance | queued | - |

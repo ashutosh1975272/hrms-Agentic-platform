@@ -101,4 +101,5 @@ across `backend/` -> no matches. `git status` staging dry-run lists exactly the 
 intended files; `.venv/` and `.pytest_cache/` are correctly ignored and no `.db`
 file is created by the test run (the engine connects lazily).
 
-Commit: (see STATUS.md)
+Commit: `5f0ff44` (scaffold). Follow-up commit records this hash in the task file
+and `tasks/STATUS.md`.
