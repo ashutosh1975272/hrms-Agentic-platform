@@ -24,7 +24,7 @@ async function signIn(role: Role) {
   window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ accessToken: TOKENS[role] }));
 }
 
-function renderChat(role: Role) {
+function renderChat() {
   return render(
     <MemoryRouter>
       <AuthProvider client={createMockAdapter()}>
@@ -53,7 +53,7 @@ beforeEach(() => {
 describe('AI chat panel — PROJECT.md §17 scenarios', () => {
   it('§17.1 answers a policy question with retrieval steps and sources', async () => {
     await signIn('employee');
-    renderChat('employee');
+    renderChat();
     await screen.findByText(/signed in as rahul kumar/i);
 
     await send('What is the work-from-home policy?');
@@ -69,7 +69,7 @@ describe('AI chat panel — PROJECT.md §17 scenarios', () => {
 
   it('§17.2 answers a leave balance question with a live table', async () => {
     await signIn('employee');
-    renderChat('employee');
+    renderChat();
     await screen.findByText(/signed in as rahul kumar/i);
 
     await send('How many leaves do I have left?');
@@ -83,7 +83,7 @@ describe('AI chat panel — PROJECT.md §17 scenarios', () => {
 
   it('§17.3 collects missing fields, then asks HR to confirm before creating', async () => {
     await signIn('hr');
-    renderChat('hr');
+    renderChat();
     await screen.findByText(/signed in as meera iyer/i);
 
     await send('Add a new employee named Rahul Kumar to the Engineering department');
@@ -106,7 +106,7 @@ describe('AI chat panel — PROJECT.md §17 scenarios', () => {
 
   it('§17.4 blocks an unauthorized delete and never offers a confirm action', async () => {
     await signIn('employee');
-    renderChat('employee');
+    renderChat();
     await screen.findByText(/signed in as rahul kumar/i);
 
     await send('Delete employee Rahul');
@@ -118,7 +118,7 @@ describe('AI chat panel — PROJECT.md §17 scenarios', () => {
 
   it('lets HR deny a sensitive action without running the tool', async () => {
     await signIn('hr');
-    renderChat('hr');
+    renderChat();
     await screen.findByText(/signed in as meera iyer/i);
 
     await send('Delete employee Sana Rao');
@@ -136,7 +136,7 @@ describe('AI chat panel — PROJECT.md §17 scenarios', () => {
 describe('AI chat panel — states and navigation', () => {
   it('surfaces a failure with a retry that re-runs the request', async () => {
     await signIn('employee');
-    renderChat('employee');
+    renderChat();
     await screen.findByText(/signed in as rahul kumar/i);
 
     await send('simulate an error');
@@ -153,7 +153,7 @@ describe('AI chat panel — states and navigation', () => {
 
   it('starts a new conversation and keeps the previous one in history', async () => {
     await signIn('employee');
-    renderChat('employee');
+    renderChat();
     await screen.findByText(/signed in as rahul kumar/i);
 
     await send('How many leaves do I have left?');
@@ -179,7 +179,7 @@ describe('AI chat panel — states and navigation', () => {
 
   it('sends a suggestion chip and blocks over-long messages', async () => {
     await signIn('employee');
-    renderChat('employee');
+    renderChat();
     await screen.findByText(/signed in as rahul kumar/i);
 
     await act(async () => {

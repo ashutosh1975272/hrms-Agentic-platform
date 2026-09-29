@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { ChatErrorBoundary } from './ChatErrorBoundary';
 import { ChatPanel } from './ChatPanel';
 
 export interface ChatDockProps {
@@ -57,7 +58,9 @@ export function ChatDock({ open, onClose, onExpand }: ChatDockProps) {
         role={modal ? 'dialog' : 'complementary'}
         tabIndex={-1}
       >
-        <ChatPanel onClose={onClose} onExpand={onExpand} variant="dock" />
+        <ChatErrorBoundary>
+          <ChatPanel onClose={onClose} onExpand={onExpand} variant="dock" />
+        </ChatErrorBoundary>
       </div>
     </div>
   );

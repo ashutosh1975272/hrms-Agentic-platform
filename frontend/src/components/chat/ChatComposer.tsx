@@ -15,6 +15,7 @@ export function ChatComposer({ busy, disabled = false, onSend, onStop }: ChatCom
   const [value, setValue] = useState('');
   const [tooLong, setTooLong] = useState(false);
   const fieldId = useId();
+  const remaining = MAX_LENGTH - value.trim().length;
   const hintId = `${fieldId}-hint`;
   const errorId = `${fieldId}-error`;
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -60,9 +61,9 @@ export function ChatComposer({ busy, disabled = false, onSend, onStop }: ChatCom
       <div className="flex items-end gap-2">
         <div className="min-w-0 flex-1">
           <textarea
-            aria-describedby={tooLong ? errorId : hintId}
+            aria-describedby={tooLong ? `${hintId} ${errorId}` : hintId}
             aria-invalid={tooLong ? 'true' : undefined}
-            className="max-h-32 min-h-11 w-full resize-y rounded-lg border border-border bg-card px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="max-h-32 min-h-11 w-full resize-y rounded-lg border border-border bg-card px-3 py-2.5 text-sm text-foreground transition-colors duration-200 placeholder:text-muted-foreground focus:border-primary focus-visible:outline-2 focus-visible:outline-offset-2"
             id={fieldId}
             name="message"
             onChange={handleChange}
@@ -73,8 +74,10 @@ export function ChatComposer({ busy, disabled = false, onSend, onStop }: ChatCom
             value={value}
           />
           <p className="mt-1 text-xs text-muted-foreground" id={hintId}>
-            Enter sends, Shift + Enter adds a line. {MAX_LENGTH - value.trim().length} characters
-            left.
+            Enter sends, Shift + Enter adds a line.{' '}
+            {tooLong
+              ? `${Math.abs(remaining)} characters over the limit.`
+              : `${remaining} characters left.`}
           </p>
           {tooLong ? (
             <p className="mt-1 text-xs font-medium text-destructive" id={errorId}>

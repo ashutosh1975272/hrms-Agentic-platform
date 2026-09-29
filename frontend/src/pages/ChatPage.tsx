@@ -1,3 +1,4 @@
+import { ChatErrorBoundary } from '../components/chat/ChatErrorBoundary';
 import { ChatPanel } from '../components/chat/ChatPanel';
 import { useAuth } from '../auth/AuthContext';
 import { useChat } from '../chat/useChat';
@@ -28,7 +29,9 @@ export function ChatPage() {
         aria-label="AI chat"
         className="glass-card min-h-0 flex-1 overflow-hidden rounded-xl shadow-md"
       >
-        <ChatPanel variant="page" />
+        <ChatErrorBoundary>
+          <ChatPanel variant="page" />
+        </ChatErrorBoundary>
       </section>
 
       <p className="text-xs text-muted-foreground">
