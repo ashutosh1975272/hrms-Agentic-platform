@@ -56,8 +56,38 @@ backend/
     main.py          # FastAPI application and /health endpoint
     db.py            # SQLAlchemy engine, session, Base, get_db
     core/config.py   # pydantic-settings configuration
+    ai/rag/          # RAG service: chunker.py, store.py, pipeline.py
   tests/
     test_health.py   # /health smoke tests
-  seed_policies/     # Markdown policy docs for RAG (added in TASK-08)
+    test_rag.py      # chunking, TF-IDF retrieval, grounded answers
+  seed_policies/     # Markdown policy docs ingested by the RAG service
   requirements.txt
 ```
+
+## RAG service
+
+`app/ai/rag/` is a standalone, offline retrieval service over
+`seed_policies/`. It uses only the standard library (no ML dependencies):
+
+```python
+from app.ai.rag import RagPipeline, ingest_docs
+
+pipeline = RagPipeline(ingest_docs("seed_policies"))
+answer = pipeline.answer("What is the company work-from-home policy?", top_k=3)
+
+answer.top_source  # 'wfh-policy.md'
+answer.citations   # ['wfh-policy.md', ...]
+answer.answer      # extractive, grounded answer quoting the retrieved chunks
+```
+
+- `ingest_docs(dir, index_path=...)` chunks every `.md`/`.txt` document
+  (~500 characters, 80-character overlap, sentence and table-row aware) and
+  builds the index; `index_path` persists it as JSON for later reload.
+- `TfidfStore.search(query, top_k, allowed_docs=...)` returns scored chunks.
+  `allowed_docs` enforces document-level access (PROJECT.md §20) so callers can
+  restrict retrieval before any text leaves the service.
+- `RagPipeline.answer()` returns a grounded, extractive answer with citations.
+  It never calls a language model; `build_prompt(question, results)` renders the
+  same retrieved context for an LLM provider supplied by the agent core.
+- Retrieval is deterministic: the same corpus and query always produce the same
+  ranking, so tests run offline with no network access.
