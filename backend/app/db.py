@@ -7,7 +7,11 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
-connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
+connect_args = (
+    {"check_same_thread": False}
+    if settings.database_url.startswith("sqlite")
+    else {}
+)
 
 engine = create_engine(settings.database_url, connect_args=connect_args, future=True)
 
@@ -25,3 +29,10 @@ def get_db() -> Generator[Session, None, None]:
         yield db
     finally:
         db.close()
+
+
+def create_all_tables() -> None:
+    """Create the tables of every registered ORM model (dev, no Alembic yet)."""
+    from app import models  # noqa: F401
+
+    Base.metadata.create_all(bind=engine)

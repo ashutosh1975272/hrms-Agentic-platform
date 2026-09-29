@@ -4,7 +4,7 @@
 |---|---|---|---|---|---|
 | TASK-00 | Seed policy docs | docs-writer | feature/TASK-00-seed | done | 68376e2 |
 | TASK-01 | Backend scaffold + skeleton | backend-dev | feature/TASK-01-scaffold | done | 5f0ff44 |
-| TASK-02 | Auth + RBAC | backend-dev | feature/TASK-02-auth | doing | - |
+| TASK-02 | Auth + RBAC | backend-dev | feature/TASK-02-auth | review | 013d432 |
 | TASK-03 | Employee + Dept + Designation APIs | backend-dev | feature/TASK-03-employees | queued | - |
 | TASK-04 | Attendance APIs | backend-dev | feature/TASK-04-attendance | queued | - |
 | TASK-05 | Leave APIs | backend-dev | feature/TASK-05-leave | queued | - |
