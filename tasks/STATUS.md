@@ -2,6 +2,7 @@
 
 | Task | Feature | Mode | Branch | Status | Commit |
 |---|---|---|---|---|---|
+| TASK-00 | Seed policy documents | docs-writer | feature/TASK-00-seed | review | 73c594f |
 | TASK-01 | Backend scaffold + skeleton | backend-dev | feature/TASK-01-scaffold | doing | - |
 | TASK-02 | Auth + RBAC | backend-dev | feature/TASK-02-auth | queued | - |
 | TASK-03 | Employee + Dept + Designation APIs | backend-dev | feature/TASK-03-employees | queued | - |
