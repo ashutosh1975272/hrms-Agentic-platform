@@ -4,18 +4,17 @@
 |---|---|---|---|---|---|
 | TASK-00 | Seed policy docs | docs-writer | feature/TASK-00-seed | done | 68376e2 |
 | TASK-01 | Backend scaffold + skeleton | backend-dev | feature/TASK-01-scaffold | done | 5f0ff44 |
-| TASK-02 | Auth + RBAC | backend-dev | feature/TASK-02-auth | review | 013d432 |
+| TASK-02 | Auth + RBAC | backend-dev | feature/TASK-02-auth | done | 013d432 |
 | TASK-03 | Employee + Dept + Designation APIs | backend-dev | feature/TASK-03-employees | queued | - |
 | TASK-04 | Attendance APIs | backend-dev | feature/TASK-04-attendance | queued | - |
 | TASK-05 | Leave APIs | backend-dev | feature/TASK-05-leave | queued | - |
 | TASK-06 | Audit logging + policy docs | backend-dev | feature/TASK-06-audit | queued | - |
 | TASK-07 | AI agent core | ai-engineer | feature/TASK-07-agent | queued | - |
-| TASK-08 | RAG pipeline | ai-engineer | feature/TASK-08-rag | review | 1db95b2 |
+| TASK-08 | RAG pipeline | ai-engineer | feature/TASK-08-rag | done | 1db95b2 |
 | TASK-09 | Frontend shell + dashboards | frontend-dev | feature/TASK-09-frontend-shell | done | 90149c7 |
-| TASK-10 | Frontend HRMS modules | frontend-dev | feature/TASK-10-frontend-modules | doing | - |
+| TASK-10 | Frontend HRMS modules | frontend-dev | feature/TASK-10-frontend-modules | done | fe0a967 |
 | TASK-11 | Frontend AI chat UI | frontend-dev | feature/TASK-11-frontend-chat | doing | - |
-| TASK-13 | E2E harness + CI + docs | qa/docs | feature/TASK-13-e2e-docs | doing | - |
+| TASK-13 | E2E harness + CI + docs | qa/docs | feature/TASK-13-e2e-docs | done | 716785b |
 | TASK-12 | Security + E2E + docs | security/qa/docs | feature/TASK-12-hardening | queued | - |
-| TASK-13 | E2E harness + CI + docs | qa-tester/docs-writer | feature/TASK-13-e2e-docs | review | 94b9a53 |
 
 Statuses: queued -> doing -> review -> done (merged).
