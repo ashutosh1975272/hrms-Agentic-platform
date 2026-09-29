@@ -91,4 +91,10 @@ credential, and the lead should decide which task owns it (TASK-06 or TASK-12).
 No secrets, tokens, keys or `.env` files committed. `SECRET_KEY` comes from the
 environment via `pydantic-settings`; the fallback in `app/core/config.py:27` is the
 literal string `dev-only-insecure-secret-key-change-me` with a comment marking it
-dev-only and public. Scanned the working tree before committing.
+dev-only and public. Secrets check: no hardcoded password/secret/token/api-key assignments found in
+`backend/` or `tasks/`; no `.env` committed (`*.env.example` in the tree is TASK-09's
+and is git-allowlisted); no `*.db` created by the test run. `git status` staging lists
+exactly the 22 intended files.
+
+Commit: `013d432` (auth + RBAC). Follow-up commits record this hash in the task file
+and `tasks/STATUS.md`.
