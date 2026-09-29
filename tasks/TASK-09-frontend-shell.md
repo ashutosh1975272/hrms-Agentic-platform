@@ -85,5 +85,6 @@ Manual smoke check: `vite preview` on port 4173 returned `HTTP 200`, title `Agen
   `aria-describedby`, password show/hide toggle, `autocomplete` hints, `scope="col"` table headers
   with captions, labelled regions, skip link, visible `:focus-visible` rings, reduced-motion guard.
 
-**Commit:** _(filled in below after commit)_
+**Commit:** `90149c7` — TASK-09: frontend shell with login, role routing and three dashboards
+(mock-first).
 
