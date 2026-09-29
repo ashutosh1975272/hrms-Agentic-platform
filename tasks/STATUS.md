@@ -15,5 +15,6 @@
 | TASK-10 | Frontend HRMS modules | frontend-dev | feature/TASK-10-frontend-modules | doing | - |
 | TASK-11 | Frontend AI chat UI | frontend-dev | feature/TASK-11-frontend-chat | doing | - |
 | TASK-12 | Security + E2E + docs | security/qa/docs | feature/TASK-12-hardening | queued | - |
+| TASK-13 | E2E harness + CI + docs | qa-tester/docs-writer | feature/TASK-13-e2e-docs | review | - |
 
 Statuses: queued -> doing -> review -> done (merged).
