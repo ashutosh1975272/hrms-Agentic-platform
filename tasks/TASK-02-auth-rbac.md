@@ -22,7 +22,6 @@
 ## Agent report
 
 **Gate output** (97 passed, TASK-01 `test_health.py` included):
-
 ```
 $ python -m pytest
 ........................................................................ [100%]
