@@ -13,7 +13,7 @@
 | TASK-08 | RAG pipeline | ai-engineer | feature/TASK-08-rag | done | 1db95b2 |
 | TASK-09 | Frontend shell + dashboards | frontend-dev | feature/TASK-09-frontend-shell | done | 90149c7 |
 | TASK-10 | Frontend HRMS modules | frontend-dev | feature/TASK-10-frontend-modules | done | fe0a967 |
-| TASK-11 | Frontend AI chat UI | frontend-dev | feature/TASK-11-frontend-chat | doing | - |
+| TASK-11 | Frontend AI chat UI | frontend-dev | feature/TASK-11-frontend-chat | done | f84a527 |
 | TASK-13 | E2E harness + CI + docs | qa/docs | feature/TASK-13-e2e-docs | done | 716785b |
 | TASK-12 | Security + E2E + docs | security/qa/docs | feature/TASK-12-hardening | queued | - |
 

@@ -10,6 +10,7 @@ import { PageHeader } from './components/ui/Card';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { AnnouncementsPage } from './pages/AnnouncementsPage';
 import { AttendancePage } from './pages/AttendancePage';
+import { ChatPage } from './pages/ChatPage';
 import { EmployeeDashboard } from './pages/EmployeeDashboard';
 import { EmployeesPage } from './pages/EmployeesPage';
 import { HolidaysPage } from './pages/HolidaysPage';
@@ -138,6 +139,14 @@ export function App() {
             element={
               <Shell>
                 <AnnouncementsPage />
+              </Shell>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <Shell>
+                <ChatPage />
               </Shell>
             }
           />

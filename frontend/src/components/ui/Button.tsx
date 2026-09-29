@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Icon, type IconName } from './Icon';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'subtle' | 'danger';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
 const VARIANT_CLASS: Record<ButtonVariant, string> = {
   primary: 'bg-accent text-on-accent shadow-sm hover:bg-accent-strong',
@@ -17,6 +17,7 @@ const SIZE_CLASS: Record<ButtonSize, string> = {
   sm: 'min-h-11 gap-1.5 px-3 text-sm',
   md: 'min-h-11 gap-2 px-4 text-sm',
   lg: 'min-h-12 gap-2 px-6 text-base',
+  icon: 'h-11 w-11 shrink-0 p-0',
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,6 +25,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   icon?: IconName;
   iconPosition?: 'start' | 'end';
+  iconAfter?: IconName;
+  loading?: boolean;
   block?: boolean;
   children?: ReactNode;
 }
@@ -33,16 +36,22 @@ export function Button({
   size = 'md',
   icon,
   iconPosition = 'start',
+  iconAfter,
+  loading = false,
   block = false,
   className = '',
   type = 'button',
   children,
+  disabled,
   ...rest
 }: ButtonProps) {
+  const shownIcon = loading && icon ? 'loader' : icon;
+  const iconSize = size === 'lg' ? 20 : 18;
   return (
     <button
       {...rest}
       type={type}
+      disabled={disabled ?? loading}
       className={[
         'inline-flex cursor-pointer items-center justify-center rounded-control font-semibold',
         'transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-out',
@@ -56,9 +65,14 @@ export function Button({
         .filter(Boolean)
         .join(' ')}
     >
-      {icon && iconPosition === 'start' ? <Icon name={icon} size={size === 'lg' ? 20 : 18} /> : null}
+      {shownIcon && iconPosition === 'start' ? (
+        <Icon name={shownIcon} size={iconSize} className={loading ? 'motion-safe:animate-spin' : ''} />
+      ) : null}
       {children}
-      {icon && iconPosition === 'end' ? <Icon name={icon} size={size === 'lg' ? 20 : 18} /> : null}
+      {shownIcon && iconPosition === 'end' ? (
+        <Icon name={shownIcon} size={iconSize} className={loading ? 'motion-safe:animate-spin' : ''} />
+      ) : null}
+      {iconAfter ? <Icon name={iconAfter} size={iconSize} /> : null}
     </button>
   );
 }

@@ -6,6 +6,8 @@ import { useAuth } from '../auth/AuthContext';
 import { useCan } from '../hooks/useCan';
 import type { Permission } from '../auth/permissions';
 import { ROLE_LABEL } from '../auth/roles';
+import { ChatProvider } from '../chat/ChatProvider';
+import { ChatDockHost } from './chat/ChatDockHost';
 import { Avatar, Badge } from './ui/Badge';
 import { Button } from './ui/Button';
 import { Icon, type IconName } from './ui/Icon';
@@ -22,6 +24,7 @@ const DASHBOARD_NAV: NavItem[] = [
   { to: '/dashboard', label: 'My dashboard', icon: 'dashboard' },
   { to: '/hr', label: 'HR workspace', icon: 'users', allowed: ['hr', 'admin'] },
   { to: '/admin', label: 'Admin console', icon: 'shield', allowed: ['admin'] },
+  { to: '/chat', label: 'AI assistant', icon: 'message' },
 ];
 
 const MODULE_NAV: NavItem[] = [
@@ -102,6 +105,7 @@ export function AppShell({ children }: AppShellProps) {
   const closeNav = () => setNavOpen(false);
 
   return (
+    <ChatProvider>
     <div className="app-backdrop min-h-screen">
       <a
         href="#main-content"
@@ -187,6 +191,8 @@ export function AppShell({ children }: AppShellProps) {
           {children}
         </main>
       </div>
+      {user ? <ChatDockHost /> : null}
     </div>
+    </ChatProvider>
   );
 }

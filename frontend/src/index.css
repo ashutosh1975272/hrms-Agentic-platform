@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
+/*
+ * Design tokens — single source of truth:
+ * design-system/agentic-hrms/MASTER.md
+ * Components must reference these theme tokens (bg-primary, text-foreground,
+ * shadow-md, font-heading, ...) and never raw hex values.
+ */
 @theme {
   /* Palette - design-system/agentic-hrms/MASTER.md */
   --color-primary: #2563eb;
@@ -34,6 +40,15 @@
   /* Typography */
   --font-heading: 'Poppins', 'Segoe UI', system-ui, sans-serif;
   --font-body: 'Open Sans', 'Segoe UI', system-ui, sans-serif;
+
+  /* MASTER.md spacing scale: 2 / 4 / 8 / 12 / 16 / 24 / 32 px (from TASK-11) */
+  --spacing-xs: 2px;
+  --spacing-sm: 4px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
 
   /* Shadow depths */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -94,6 +109,14 @@
     backdrop-filter: blur(18px) saturate(170%);
     -webkit-backdrop-filter: blur(18px) saturate(170%);
     border: 1px solid rgba(255, 255, 255, 0.55);
+  }
+
+  /* Dense dashboard data surface (from TASK-11). */
+  .glass-card {
+    background-color: color-mix(in srgb, var(--color-card) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
   }
 
   /* Vibrant layered backdrop for depth */
