@@ -3,10 +3,12 @@ import { useCallback } from 'react';
 import type { AdminDashboardData } from '../api/types';
 import { useAuth } from '../auth/AuthContext';
 import { ROLE_LABEL } from '../auth/roles';
-import { DataTable, type Column } from '../components/DataTable';
-import { Panel } from '../components/Panel';
-import { StatCard } from '../components/StatCard';
 import { useAsyncData } from '../hooks/useAsyncData';
+import { Badge } from '../components/ui/Badge';
+import { PageHeader, SectionCard } from '../components/ui/Card';
+import { DataTable, type Column } from '../components/ui/DataTable';
+import { StatCard } from '../components/ui/StatCard';
+import { ErrorState } from '../components/ui/States';
 
 type AuditEvent = AdminDashboardData['recentAuditEvents'][number];
 
@@ -23,15 +25,9 @@ const auditColumns: Array<Column<AuditEvent>> = [
     key: 'status',
     header: 'Status',
     render: (row) => (
-      <span
-        className={
-          row.status === 'denied'
-            ? 'rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800'
-            : 'rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-800'
-        }
-      >
+      <Badge tone={row.status === 'denied' ? 'danger' : 'success'}>
         {row.status === 'denied' ? 'Denied' : 'Success'}
-      </span>
+      </Badge>
     ),
   },
 ];
@@ -46,11 +42,7 @@ export function AdminDashboard() {
   }
 
   if (error) {
-    return (
-      <p role="alert" className="rounded-md border border-red-200 bg-red-50 p-4 text-red-800">
-        {error}
-      </p>
-    );
+    return <ErrorState title="Organisation metrics unavailable" message={error} />;
   }
 
   if (!data) {
@@ -59,55 +51,60 @@ export function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-slate-900">Admin dashboard</h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Organisation-wide metrics, access control and recent system activity.
-        </p>
-      </div>
+      <PageHeader
+        title="Admin dashboard"
+        description="Organisation-wide metrics, access control and recent system activity."
+      />
 
-      <Panel title="Organisation metrics">
+      <SectionCard title="Organisation metrics">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <StatCard label="Total employees" value={data.metrics.totalEmployees} />
-          <StatCard label="Active users" value={data.metrics.activeUsers} />
-          <StatCard label="Departments" value={data.metrics.departments} />
-          <StatCard label="Employees on leave" value={data.metrics.employeesOnLeave} />
-          <StatCard label="Pending leave requests" value={data.metrics.pendingLeaveRequests} />
-          <StatCard label="Policies published" value={data.metrics.policiesPublished} />
+          <StatCard label="Total employees" value={data.metrics.totalEmployees} icon="users" staggerIndex={0} />
+          <StatCard label="Active users" value={data.metrics.activeUsers} icon="shield" staggerIndex={1} />
+          <StatCard label="Departments" value={data.metrics.departments} icon="dashboard" staggerIndex={2} />
+          <StatCard label="Employees on leave" value={data.metrics.employeesOnLeave} icon="briefcase" staggerIndex={3} />
+          <StatCard label="Pending leave requests" value={data.metrics.pendingLeaveRequests} icon="inbox" staggerIndex={4} />
+          <StatCard label="Policies published" value={data.metrics.policiesPublished} icon="book" staggerIndex={5} />
         </div>
-      </Panel>
+      </SectionCard>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Panel title="Department headcount">
+        <SectionCard title="Department headcount">
           <ul className="space-y-2 text-sm">
             {data.departmentHeadcount.map((entry) => (
-              <li key={entry.department} className="flex justify-between gap-4 text-slate-800">
+              <li
+                key={entry.department}
+                className="flex items-center justify-between gap-4 border-b border-border/70 pb-2 text-foreground last:border-0 last:pb-0"
+              >
                 <span>{entry.department}</span>
-                <span className="font-medium">{entry.headcount}</span>
+                <span className="font-heading text-base font-semibold">{entry.headcount}</span>
               </li>
             ))}
           </ul>
-        </Panel>
+        </SectionCard>
 
-        <Panel title="Role access summary">
+        <SectionCard title="Role access summary">
           <ul className="space-y-2 text-sm">
             {data.accessSummary.map((entry) => (
-              <li key={entry.role} className="flex justify-between gap-4 text-slate-800">
+              <li
+                key={entry.role}
+                className="flex items-center justify-between gap-4 border-b border-border/70 pb-2 text-foreground last:border-0 last:pb-0"
+              >
                 <span>{ROLE_LABEL[entry.role]}</span>
-                <span className="font-medium">{entry.userCount}</span>
+                <span className="font-heading text-base font-semibold">{entry.userCount}</span>
               </li>
             ))}
           </ul>
-        </Panel>
+        </SectionCard>
 
-        <Panel title="Recent audit events" className="lg:col-span-2">
+        <SectionCard title="Recent audit events" className="lg:col-span-2">
           <DataTable
             caption="Recent audit events"
             columns={auditColumns}
             rows={data.recentAuditEvents}
-            emptyMessage="No audited actions recorded yet."
+            emptyTitle="No audited actions yet"
+            emptyDescription="AI and system actions will appear here once they run."
           />
-        </Panel>
+        </SectionCard>
       </div>
     </div>
   );

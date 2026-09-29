@@ -12,7 +12,7 @@
 | TASK-07 | AI agent core | ai-engineer | feature/TASK-07-agent | queued | - |
 | TASK-08 | RAG pipeline | ai-engineer | feature/TASK-08-rag | queued | - |
 | TASK-09 | Frontend shell + dashboards | frontend-dev | feature/TASK-09-frontend-shell | done | 90149c7 |
-| TASK-10 | Frontend HRMS modules | frontend-dev | feature/TASK-10-frontend-modules | doing | - |
+| TASK-10 | Frontend HRMS modules | frontend-dev | feature/TASK-10-frontend-modules | review | - |
 | TASK-11 | Frontend AI chat UI | frontend-dev | feature/TASK-11-frontend-chat | queued | - |
 | TASK-12 | Security + E2E + docs | security/qa/docs | feature/TASK-12-hardening | queued | - |
 

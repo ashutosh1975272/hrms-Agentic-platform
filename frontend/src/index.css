@@ -1,4 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
+
+@theme {
+  /* Palette - design-system/agentic-hrms/MASTER.md */
+  --color-primary: #2563eb;
+  --color-primary-strong: #1d4ed8;
+  --color-primary-soft: #e4edff;
+  --color-on-primary: #ffffff;
+  --color-secondary: #3b82f6;
+  --color-on-secondary: #000000;
+  --color-accent: #ea580c;
+  --color-accent-strong: #c2410c;
+  --color-accent-soft: #ffedd5;
+  --color-on-accent: #000000;
+  --color-background: #f8fafc;
+  --color-foreground: #1e293b;
+  --color-card: #ffffff;
+  --color-card-foreground: #1e293b;
+  --color-muted: #e9eff8;
+  --color-muted-foreground: #475569;
+  --color-border: #e2e8f0;
+  --color-destructive: #dc2626;
+  --color-destructive-strong: #b91c1c;
+  --color-on-destructive: #ffffff;
+  --color-ring: #2563eb;
+  --color-success: #15803d;
+  --color-success-soft: #dcfce7;
+  --color-warning: #92400e;
+  --color-warning-soft: #fef3c7;
+  --color-info: #1d4ed8;
+  --color-info-soft: #dbeafe;
+
+  /* Typography */
+  --font-heading: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Open Sans', 'Segoe UI', system-ui, sans-serif;
+
+  /* Shadow depths */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+  /* Shape */
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-dialog: 16px;
+}
 
 @layer base {
   html {
@@ -7,21 +54,141 @@
 
   body {
     margin: 0;
-    font-family:
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Roboto,
-      Helvetica,
-      Arial,
-      sans-serif;
+    min-height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
     line-height: 1.5;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    line-height: 1.25;
   }
 
   :focus-visible {
-    outline: 2px solid currentColor;
+    outline: 2px solid var(--color-ring);
     outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Frosted glass surfaces - MASTER.md "Glassmorphism" style */
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow-md);
+  }
+
+  .glass-rail {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(18px) saturate(170%);
+    -webkit-backdrop-filter: blur(18px) saturate(170%);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+  }
+
+  /* Vibrant layered backdrop for depth */
+  .app-backdrop {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    background-color: var(--color-background);
+  }
+
+  .app-backdrop::before,
+  .app-backdrop::after {
+    content: '';
+    position: fixed;
+    z-index: -1;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .app-backdrop::before {
+    width: 26rem;
+    height: 26rem;
+    top: -8rem;
+    right: -6rem;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.55), rgba(59, 130, 246, 0));
+  }
+
+  .app-backdrop::after {
+    width: 24rem;
+    height: 24rem;
+    bottom: -9rem;
+    left: -7rem;
+    background: radial-gradient(circle, rgba(234, 88, 12, 0.35), rgba(234, 88, 12, 0));
+  }
+
+  /* Subtle list stagger - transform/opacity only, never layout properties */
+  .stagger-item {
+    animation: stagger-in 380ms cubic-bezier(0.34, 1.2, 0.64, 1) both;
+    animation-delay: var(--stagger-delay, 0ms);
+  }
+
+  .animate-fade-in {
+    animation: fade-in 220ms ease-out both;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 200ms ease-out both;
+  }
+
+  .animate-drawer-in {
+    animation: drawer-in 220ms ease-out both;
+  }
+}
+
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -30,7 +197,16 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .stagger-item,
+  .animate-fade-in,
+  .animate-scale-in,
+  .animate-drawer-in {
+    animation: none !important;
   }
 }

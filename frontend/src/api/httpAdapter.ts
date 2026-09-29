@@ -1,11 +1,25 @@
 import { ApiError } from './errors';
 import type {
   AdminDashboardData,
+  Announcement,
   ApiClient,
+  AttendanceCorrection,
+  AttendanceCorrectionInput,
+  AttendanceDay,
+  AttendanceRecord,
+  Designation,
+  Department,
   Employee,
   EmployeeDashboardData,
+  EmployeeInput,
+  Holiday,
   HrDashboardData,
-  LoginCredentials,
+  LeaveDecision,
+  LeaveInput,
+  LeaveRequest,
+  MonthlyAttendance,
+  PolicyDocument,
+  PolicySummary,
   Session,
   User,
 } from './types';
@@ -31,6 +45,17 @@ function readErrorDetail(payload: unknown, status: number): string {
     }
   }
   return `Request failed with status ${status}`;
+}
+
+function encodeQuery(params: Record<string, string | undefined>): string {
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value) {
+      search.set(key, value);
+    }
+  }
+  const query = search.toString();
+  return query.length > 0 ? `?${query}` : '';
 }
 
 export function createHttpAdapter(options: HttpAdapterOptions): ApiClient {
@@ -67,8 +92,27 @@ export function createHttpAdapter(options: HttpAdapterOptions): ApiClient {
     Authorization: `Bearer ${accessToken}`,
   });
 
+  const withToken = (accessToken: string) => ({ headers: authorized(accessToken) });
+
+  const post = <T>(path: string, accessToken: string, body?: unknown): Promise<T> =>
+    request<T>(path, {
+      method: 'POST',
+      headers: authorized(accessToken),
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    });
+
+  const patch = <T>(path: string, accessToken: string, body: unknown): Promise<T> =>
+    request<T>(path, {
+      method: 'PATCH',
+      headers: authorized(accessToken),
+      body: JSON.stringify(body),
+    });
+
+  const remove = (path: string, accessToken: string): Promise<void> =>
+    request<void>(path, { method: 'DELETE', headers: authorized(accessToken) });
+
   return {
-    async login(credentials: LoginCredentials) {
+    async login(credentials) {
       const payload = await request<AuthResponse>('/auth/login', {
         method: 'POST',
         body: JSON.stringify(credentials),
@@ -86,29 +130,124 @@ export function createHttpAdapter(options: HttpAdapterOptions): ApiClient {
     },
 
     me(accessToken) {
-      return request<User>('/auth/me', { headers: authorized(accessToken) });
+      return request<User>('/auth/me', withToken(accessToken));
     },
 
-    listEmployees(accessToken) {
-      return request<Employee[]>('/employees', { headers: authorized(accessToken) });
+    listEmployees(accessToken, filters) {
+      return request<Employee[]>(
+        `/employees${encodeQuery({
+          search: filters?.search,
+          department: filters?.department,
+          status: filters?.status,
+        })}`,
+        withToken(accessToken),
+      );
+    },
+
+    getEmployee(accessToken, id) {
+      return request<Employee>(`/employees/${encodeURIComponent(id)}`, withToken(accessToken));
+    },
+
+    createEmployee(accessToken, input: EmployeeInput) {
+      return post<Employee>('/employees', accessToken, input);
+    },
+
+    updateEmployee(accessToken, id, input: EmployeeInput) {
+      return patch<Employee>(`/employees/${encodeURIComponent(id)}`, accessToken, input);
+    },
+
+    deleteEmployee(accessToken, id) {
+      return remove(`/employees/${encodeURIComponent(id)}`, accessToken);
+    },
+
+    listDepartments(accessToken) {
+      return request<Department[]>('/departments', withToken(accessToken));
+    },
+
+    listDesignations(accessToken) {
+      return request<Designation[]>('/designations', withToken(accessToken));
+    },
+
+    getMyAttendance(accessToken, month) {
+      return request<MonthlyAttendance>(
+        `/attendance/me${encodeQuery({ month })}`,
+        withToken(accessToken),
+      );
+    },
+
+    checkIn(accessToken) {
+      return post<AttendanceDay>('/attendance/check-in', accessToken);
+    },
+
+    checkOut(accessToken) {
+      return post<AttendanceDay>('/attendance/check-out', accessToken);
+    },
+
+    listAttendance(accessToken, filters) {
+      return request<AttendanceRecord[]>(
+        `/attendance${encodeQuery({ employeeId: filters?.employeeId, month: filters?.month })}`,
+        withToken(accessToken),
+      );
+    },
+
+    listCorrections(accessToken) {
+      return request<AttendanceCorrection[]>('/attendance/corrections', withToken(accessToken));
+    },
+
+    applyAttendanceCorrection(accessToken, input: AttendanceCorrectionInput) {
+      return post<AttendanceCorrection>('/attendance/corrections', accessToken, input);
     },
 
     getLeaveBalance(accessToken) {
-      return request('/leaves/balance', { headers: authorized(accessToken) });
+      return request('/leaves/balance', withToken(accessToken));
+    },
+
+    listLeaveRequests(accessToken) {
+      return request<LeaveRequest[]>('/leaves/requests', withToken(accessToken));
+    },
+
+    applyForLeave(accessToken, input: LeaveInput) {
+      return post<LeaveRequest>('/leaves/requests', accessToken, input);
+    },
+
+    cancelLeave(accessToken, id) {
+      return post<LeaveRequest>(`/leaves/requests/${encodeURIComponent(id)}/cancel`, accessToken);
+    },
+
+    reviewLeave(accessToken, id, decision: LeaveDecision) {
+      return post<LeaveRequest>(
+        `/leaves/requests/${encodeURIComponent(id)}/review`,
+        accessToken,
+        decision,
+      );
+    },
+
+    listPolicies(accessToken) {
+      return request<PolicySummary[]>('/policies', withToken(accessToken));
+    },
+
+    getPolicy(accessToken, id) {
+      return request<PolicyDocument>(`/policies/${encodeURIComponent(id)}`, withToken(accessToken));
+    },
+
+    listHolidays(accessToken) {
+      return request<Holiday[]>('/holidays', withToken(accessToken));
+    },
+
+    listAnnouncements(accessToken) {
+      return request<Announcement[]>('/announcements', withToken(accessToken));
     },
 
     getEmployeeDashboard(accessToken) {
-      return request<EmployeeDashboardData>('/dashboard/employee', {
-        headers: authorized(accessToken),
-      });
+      return request<EmployeeDashboardData>('/dashboard/employee', withToken(accessToken));
     },
 
     getHrDashboard(accessToken) {
-      return request<HrDashboardData>('/dashboard/hr', { headers: authorized(accessToken) });
+      return request<HrDashboardData>('/dashboard/hr', withToken(accessToken));
     },
 
     getAdminDashboard(accessToken) {
-      return request<AdminDashboardData>('/dashboard/admin', { headers: authorized(accessToken) });
+      return request<AdminDashboardData>('/dashboard/admin', withToken(accessToken));
     },
   };
 }
