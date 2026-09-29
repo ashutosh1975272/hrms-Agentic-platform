@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './auth/AuthContext';
 import { RequireRole } from './auth/RequireRole';
 import { homeRouteForRole } from './auth/roles';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { ChatPage } from './pages/ChatPage';
 import { EmployeeDashboard } from './pages/EmployeeDashboard';
 import { HrDashboard } from './pages/HrDashboard';
 import { LoginPage } from './pages/LoginPage';
@@ -72,6 +73,16 @@ export function App() {
             <RequireRole allowed={['admin']}>
               <Shell>
                 <AdminDashboard />
+              </Shell>
+            </RequireRole>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <RequireRole allowed={['employee', 'hr', 'admin']}>
+              <Shell>
+                <ChatPage />
               </Shell>
             </RequireRole>
           }

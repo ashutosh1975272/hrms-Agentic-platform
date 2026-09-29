@@ -1,4 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
+
+/*
+ * Design tokens — single source of truth:
+ * design-system/agentic-hrms/MASTER.md
+ * Components must reference these theme tokens (bg-primary, text-foreground,
+ * shadow-md, font-heading, ...) and never raw hex values.
+ */
+@theme {
+  --color-primary: #2563eb;
+  --color-on-primary: #ffffff;
+  --color-secondary: #3b82f6;
+  --color-on-secondary: #000000;
+  --color-accent: #ea580c;
+  --color-on-accent: #000000;
+  --color-background: #f8fafc;
+  --color-foreground: #1e293b;
+  --color-card: #ffffff;
+  --color-card-foreground: #1e293b;
+  --color-muted: #e9eff8;
+  --color-muted-foreground: #475569;
+  --color-border: #e2e8f0;
+  --color-destructive: #dc2626;
+  --color-on-destructive: #ffffff;
+  --color-ring: #2563eb;
+
+  --font-heading: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+
+  /* MASTER.md spacing scale: 2 / 4 / 8 / 12 / 16 / 24 / 32 px */
+  --spacing-xs: 2px;
+  --spacing-sm: 4px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
 
 @layer base {
   html {
@@ -7,21 +50,56 @@
 
   body {
     margin: 0;
-    font-family:
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      Roboto,
-      Helvetica,
-      Arial,
-      sans-serif;
+    font-family: var(--font-body);
     line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
   }
 
   :focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* MASTER.md — Glassmorphism: frosted panel used by the AI assistant surfaces. */
+  .glass-panel {
+    background-color: color-mix(in srgb, var(--color-card) 78%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  }
+
+  /* MASTER.md — dense dashboard data surface. */
+  .glass-card {
+    background-color: color-mix(in srgb, var(--color-card) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Stagger list (MASTER.md motion): subtle entrance, skipped under reduced motion. */
+  .stagger-item {
+    animation: hrms-stagger-in 320ms ease-out both;
+  }
+}
+
+@keyframes hrms-stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -32,5 +110,10 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .stagger-item {
+    animation: none;
   }
 }

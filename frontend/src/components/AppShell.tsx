@@ -4,11 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { Role } from '../api/types';
 import { useAuth } from '../auth/AuthContext';
 import { ROLE_LABEL } from '../auth/roles';
+import { ChatDockHost } from './chat/ChatDockHost';
+import { ChatProvider } from '../chat/ChatProvider';
 
 const NAV_ITEMS: Array<{ to: string; label: string; allowed: Role[] }> = [
   { to: '/dashboard', label: 'My dashboard', allowed: ['employee', 'hr', 'admin'] },
   { to: '/hr', label: 'HR workspace', allowed: ['hr', 'admin'] },
   { to: '/admin', label: 'Admin console', allowed: ['admin'] },
+  { to: '/chat', label: 'AI assistant', allowed: ['employee', 'hr', 'admin'] },
 ];
 
 export interface AppShellProps {
@@ -27,7 +30,8 @@ export function AppShell({ children }: AppShellProps) {
   const visibleNav = user ? NAV_ITEMS.filter((item) => item.allowed.includes(user.role)) : [];
 
   return (
-    <div className="min-h-screen bg-slate-100">
+    <ChatProvider>
+      <div className="min-h-screen bg-slate-100">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-10 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:shadow"
@@ -76,6 +80,8 @@ export function AppShell({ children }: AppShellProps) {
       <main id="main-content" className="mx-auto max-w-6xl px-4 py-8">
         {children}
       </main>
-    </div>
+      <ChatDockHost />
+      </div>
+    </ChatProvider>
   );
 }
