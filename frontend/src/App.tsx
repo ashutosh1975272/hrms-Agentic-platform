@@ -1,13 +1,24 @@
+import type { ReactNode } from 'react';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
 
 import { AppShell } from './components/AppShell';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { RequireRole } from './auth/RequireRole';
 import { homeRouteForRole } from './auth/roles';
+import { ToastProvider } from './components/ui/Toast';
+import { PageHeader } from './components/ui/Card';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { AnnouncementsPage } from './pages/AnnouncementsPage';
+import { AttendancePage } from './pages/AttendancePage';
 import { EmployeeDashboard } from './pages/EmployeeDashboard';
+import { EmployeesPage } from './pages/EmployeesPage';
+import { HolidaysPage } from './pages/HolidaysPage';
 import { HrDashboard } from './pages/HrDashboard';
+import { LeavesPage } from './pages/LeavesPage';
 import { LoginPage } from './pages/LoginPage';
+import { PoliciesPage } from './pages/PoliciesPage';
+
+const ALL_ROLES = ['employee', 'hr', 'admin'] as const;
 
 function RoleHomeRedirect() {
   const { status, user } = useAuth();
@@ -24,67 +35,122 @@ function NotFoundPage() {
   const { user } = useAuth();
   const target = user ? homeRouteForRole(user.role) : '/login';
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold text-slate-900">Page not found</h1>
-      <Link
-        className="text-sm text-slate-700 underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
-        to={target}
-      >
-        Go to my dashboard
-      </Link>
-    </div>
+    <PageHeader
+      title="Page not found"
+      description="That route does not exist in this workspace."
+      actions={
+        <Link
+          to={target}
+          className="inline-flex min-h-11 cursor-pointer items-center rounded-control border-2 border-primary px-4 text-sm font-semibold text-primary transition-colors duration-200 hover:bg-primary-soft"
+        >
+          Go to my dashboard
+        </Link>
+      }
+    />
   );
 }
 
-function Shell({ children }: { children: React.ReactNode }) {
-  return <AppShell>{children}</AppShell>;
+function Shell({ children }: { children: ReactNode }) {
+  return (
+    <RequireRole allowed={ALL_ROLES}>
+      <AppShell>{children}</AppShell>
+    </RequireRole>
+  );
 }
 
 export function App() {
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<RoleHomeRedirect />} />
-        <Route
-          path="/dashboard"
-          element={
-            <RequireRole allowed={['employee', 'hr', 'admin']}>
+      <ToastProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<RoleHomeRedirect />} />
+          <Route
+            path="/dashboard"
+            element={
               <Shell>
                 <EmployeeDashboard />
               </Shell>
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/hr"
-          element={
-            <RequireRole allowed={['hr', 'admin']}>
+            }
+          />
+          <Route
+            path="/hr"
+            element={
+              <RequireRole allowed={['hr', 'admin']}>
+                <AppShell>
+                  <HrDashboard />
+                </AppShell>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <RequireRole allowed={['admin']}>
+                <AppShell>
+                  <AdminDashboard />
+                </AppShell>
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/employees"
+            element={
               <Shell>
-                <HrDashboard />
+                <EmployeesPage />
               </Shell>
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <RequireRole allowed={['admin']}>
+            }
+          />
+          <Route
+            path="/attendance"
+            element={
               <Shell>
-                <AdminDashboard />
+                <AttendancePage />
               </Shell>
-            </RequireRole>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <Shell>
-              <NotFoundPage />
-            </Shell>
-          }
-        />
-      </Routes>
+            }
+          />
+          <Route
+            path="/leaves"
+            element={
+              <Shell>
+                <LeavesPage />
+              </Shell>
+            }
+          />
+          <Route
+            path="/policies"
+            element={
+              <Shell>
+                <PoliciesPage />
+              </Shell>
+            }
+          />
+          <Route
+            path="/holidays"
+            element={
+              <Shell>
+                <HolidaysPage />
+              </Shell>
+            }
+          />
+          <Route
+            path="/announcements"
+            element={
+              <Shell>
+                <AnnouncementsPage />
+              </Shell>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <AppShell>
+                <NotFoundPage />
+              </AppShell>
+            }
+          />
+        </Routes>
+      </ToastProvider>
     </AuthProvider>
   );
 }

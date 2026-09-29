@@ -16,7 +16,7 @@ export function RequireRole({ allowed, children }: RequireRoleProps) {
 
   if (status === 'loading') {
     return (
-      <p role="status" aria-live="polite" className="p-8 text-center text-slate-600">
+      <p role="status" aria-live="polite" className="p-8 text-center text-muted-foreground">
         Checking your session…
       </p>
     );
