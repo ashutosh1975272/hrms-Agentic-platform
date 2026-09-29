@@ -22,7 +22,7 @@
 
 ## Agent report
 
-**Commit:** see `tasks/STATUS.md` (filled after commit).
+**Commit:** `94b9a53` on `feature/TASK-13-e2e-docs`.
 
 **What was built**
 
