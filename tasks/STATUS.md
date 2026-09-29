@@ -13,7 +13,7 @@
 | TASK-08 | RAG pipeline | ai-engineer | feature/TASK-08-rag | doing | - |
 | TASK-09 | Frontend shell + dashboards | frontend-dev | feature/TASK-09-frontend-shell | done | 90149c7 |
 | TASK-10 | Frontend HRMS modules | frontend-dev | feature/TASK-10-frontend-modules | doing | - |
-| TASK-11 | Frontend AI chat UI | frontend-dev | feature/TASK-11-frontend-chat | review | - |
+| TASK-11 | Frontend AI chat UI | frontend-dev | feature/TASK-11-frontend-chat | review | f84a527 |
 | TASK-12 | Security + E2E + docs | security/qa/docs | feature/TASK-12-hardening | queued | - |
 
 Statuses: queued -> doing -> review -> done (merged).

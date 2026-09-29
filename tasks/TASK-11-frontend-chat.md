@@ -3,6 +3,7 @@
 - Status: review
 - Mode: frontend-dev
 - Branch: `feature/TASK-11-frontend-chat`
+- Commit: `f84a527` (WIP base: `af00f2f`)
 - Depends on: TASK-07 (agent API). If not merged, build against a mock agent adapter with the planned contract and sample conversations from PROJECT.md §17.
 
 ## Required reading (before coding)
